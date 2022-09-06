@@ -1,0 +1,29 @@
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  profiles:
+    active: local
+  jackson:
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+    serialization:
+      write_dates_as_timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        web: info
+
+server:
+  shutdown: graceful

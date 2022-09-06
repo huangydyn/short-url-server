@@ -1,0 +1,13 @@
+spring:
+  jackson:
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+    serialization:
+      write_dates_as_timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+
+logging:
+  level:
+    org:
+      hibernate:
+        hql: info

@@ -1,0 +1,12 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: short_url_server
+  cloud:
+    discovery:
+      enabled: false
+    circuit:
+      breaker:
+        enabled: false
