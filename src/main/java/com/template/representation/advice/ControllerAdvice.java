@@ -1,7 +1,7 @@
 package com.template.representation.advice;
 
 
-import com.template.exception.BadResponseException;
+import com.template.exception.ErrorResponseException;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import static com.google.common.collect.Lists.newArrayList;
+import java.util.ArrayList;
+
 import static java.lang.String.format;
 
 @Slf4j
@@ -26,9 +27,9 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 
     private static final String COMMON_ERROR_FORMAT = "Error occurs ex: {}, message: {}, cause: {}, stack_trace: {}";
 
-    @ExceptionHandler(BadResponseException.class)
+    @ExceptionHandler(ErrorResponseException.class)
     @ResponseBody
-    public ResponseEntity<ErrorResponse> handleBadResponseException(BadResponseException ex) {
+    public ResponseEntity<ErrorResponse> handleBadResponseException(ErrorResponseException ex) {
         log.error(COMMON_ERROR_FORMAT, ex.getClass(), ex.getMessage(), ex.getCause(), ex.getStackTrace());
         return ResponseEntity
                 .status(ex.getHttpStatus())
@@ -48,7 +49,7 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                 .body(ErrorResponse.of(HttpStatus.UNPROCESSABLE_ENTITY.value(),
-                        format("Api Request Error: fields %s require not empty", failedFields), newArrayList()));
+                        format("Api Request Error: fields %s require not empty", failedFields), new ArrayList<>()));
     }
 
     @ExceptionHandler(Exception.class)
@@ -56,7 +57,7 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     @ResponseBody
     public ErrorResponse handleException(Exception ex) {
         log.error(COMMON_ERROR_FORMAT, ex.getClass(), ex.getMessage(), ex.getCause(), ex.getStackTrace());
-        return ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage(), newArrayList());
+        return ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage(), new ArrayList<>());
     }
 }
 

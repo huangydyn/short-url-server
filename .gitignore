@@ -26,7 +26,6 @@
 /nbdist/
 /.nb-gradle/
 
-*-local.yml
 log
 test.json
 .DS_Store

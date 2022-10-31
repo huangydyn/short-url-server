@@ -1,9 +1,9 @@
 package com.template.representation;
 
+import com.template.representation.dto.GenerateShortUrlReq;
+import com.template.service.ShortUrlService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,7 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class UrlController {
 
-    public UrlController() {
+    private final ShortUrlService urlService;
+
+    public UrlController(ShortUrlService urlService) {
+        this.urlService = urlService;
     }
 
     @GetMapping("/url/{id}")
@@ -19,5 +22,10 @@ public class UrlController {
         log.info("[Redirect] get redirect id {}", id);
         httpServletResponse.setHeader("Location", "https://google.com");
         httpServletResponse.setStatus(302);
+    }
+
+    @PostMapping("/url")
+    public String generateShortUrl(@RequestBody GenerateShortUrlReq req) {
+        return urlService.generateShortUrl(req.getOriginUrl());
     }
 }
